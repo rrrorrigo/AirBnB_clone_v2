@@ -137,7 +137,8 @@ class HBNBCommand(cmd.Cmd):
             add = str(arg_list[0]) + " " + new_instance.id +\
                   " " + str(dic)
         print(new_instance.id)
-        self.do_update(add)
+        if len(arg_list) > 1:
+            self.do_update(add)
         storage.save()
 
     def help_create(self):
