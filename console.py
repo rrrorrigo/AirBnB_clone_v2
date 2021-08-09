@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import shlex
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -115,15 +116,28 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+        arg_list = shlex.split(args)
+        if not arg_list:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif arg_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[arg_list[0]]()
         storage.save()
+        dic = {}
+        for att_name in arg_list[1:]:
+            eq = att_name.find('=')
+            dic[att_name[:eq]] = att_name[eq + 1:]
+        if len(arg_list) < 3:
+            add = str(arg_list[0]) + " " + new_instance.id +\
+                  " " + args[len(arg_list[0]) + 1:].replace("=", " ")
+        elif len(arg_list) > 2:
+            add = str(arg_list[0]) + " " + new_instance.id +\
+                  " " + str(dic)
         print(new_instance.id)
+        print(add)
+        self.do_update(add)
         storage.save()
 
     def help_create(self):
@@ -309,7 +323,6 @@ class HBNBCommand(cmd.Cmd):
                 # type cast as necessary
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
-
                 # update dictionary with name, value pair
                 new_dict.__dict__.update({att_name: att_val})
 
