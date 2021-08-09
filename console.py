@@ -128,10 +128,11 @@ class HBNBCommand(cmd.Cmd):
         dic = {}
         for att_name in arg_list[1:]:
             eq = att_name.find('=')
-            dic[att_name[:eq]] = att_name[eq + 1:]
+            dic[att_name[:eq]] = att_name[eq + 1:].replace("_"," ")
         if len(arg_list) < 3:
             add = str(arg_list[0]) + " " + new_instance.id +\
-                  " " + args[len(arg_list[0]) + 1:].replace("=", " ")
+                  " " + args[len(arg_list[0]) + 1:].replace("=", " ")\
+                                                   .replace("_"," ")
         elif len(arg_list) > 2:
             add = str(arg_list[0]) + " " + new_instance.id +\
                   " " + str(dic)
