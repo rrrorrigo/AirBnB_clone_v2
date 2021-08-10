@@ -40,20 +40,19 @@ class DBStorage:
 
     def new(self, obj):
         """add the object to the current database session"""
-        """Base.metadata.create_all(self.__engine)
-        session = Session(self.__engine)"""
         self.__session.add(obj)
 
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
+        self.__session.close()
 
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
         if obj:
             for clas in self.__session.query(obj).all():
                 self.__session.delete(obj)
-        self.__session.commit()
+            self.__session.commit()
 
     def reload(self):
         """create all tables in the database"""
