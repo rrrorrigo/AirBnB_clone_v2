@@ -221,11 +221,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.__class.__name__.__objects.items():
+            for k, v in storage.__objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage.__class.__name__.__objects.items():
+            for k, v in storage.__objects.items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -274,10 +274,12 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         # determine if key is present
-
-        if key not in storage.all():
-            print("** no instance found **")
-            return
+        try:
+            if key not in storage.all():
+                print("** no instance found **")
+                return
+        except:
+            pass
 
         # first determine if kwargs or args
         if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
