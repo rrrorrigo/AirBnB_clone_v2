@@ -32,7 +32,7 @@ class DBStorage:
         """query all objects depending of the class name"""
         new_dictionary = {}
         if cls is None:
-            for clas in self.__session.query(User, State, City, Amenity, Place, Review).all():
+            for clas in self.__session.query(State, City).all():
                 new_dictionary[clas.__class__.__name__ + '.' + clas.id] = clas.to_dict()
         else:
             for clas in self.__session.query(cls).all():
