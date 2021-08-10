@@ -37,7 +37,7 @@ class DBStorage:
         else:
             for clas in self.__session.query(cls).all():
                 new_dictionary[clas.__class__.__name__ + '.' + clas.id] = clas.to_dict()
-
+        return new_dictionary
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
