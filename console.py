@@ -137,6 +137,7 @@ class HBNBCommand(cmd.Cmd):
             if '\"' in v:
                 v = v.replace('\"', '')
             setattr(new_instance, k, v)
+        storage.save()
         storage.new(new_instance)
         storage.save()
 
