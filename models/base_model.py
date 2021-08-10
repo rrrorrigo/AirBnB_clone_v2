@@ -2,10 +2,21 @@
 """This module defines a base class for all models in our hbnb clone"""
 import uuid
 from datetime import datetime
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql.expression import delete
+from sqlalchemy.sql.schema import ForeignKey
+import models
+Base = declarative_base()
 
 
 class BaseModel:
     """A base class for all hbnb models"""
+
+    id = Column(String, nullable=False, PrimaryKey=True)
+    created_at = Column(String, nullable=False, default=datetime.utcnow())
+    updated_at = Column(String, nullable=False, default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -15,10 +26,12 @@ class BaseModel:
             self.updated_at = datetime.now()
             storage.new(self)
         else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+            for key, value in kwargs.items():
+                if key in ['updated_at', 'created_at']:
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                    setattr(self, key, value)
+                else:
+                    setattr(self, key, value)
             del kwargs['__class__']
             self.__dict__.update(kwargs)
 
@@ -41,4 +54,11 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
+        if dictionary['_sa_instance_state']:
+            del dictionary['_sa_instance_state']
         return dictionary
+
+    def delete(self):
+        """delete the current instance from the storage
+        (models.storage) by calling the method delete"""
+        models.storage.delete(self)
