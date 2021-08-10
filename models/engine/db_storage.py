@@ -35,7 +35,7 @@ class DBStorage:
             for clas in self.__session.query(State, City).all():
                 new_dictionary[clas.__class__.__name__ + '.' + clas.id] = clas.to_dict()
         else:
-            for clas in self.__session.query(cls).all():
+            for clas in self.__session.query(eval(cls)).all():
                 new_dictionary[clas.__class__.__name__ + '.' + clas.id] = clas.to_dict()
         return new_dictionary
     def new(self, obj):
