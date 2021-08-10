@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+from os import replace
 import sys
 import shlex
 from models.base_model import BaseModel
@@ -116,29 +117,26 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        arg_list = shlex.split(args)
-        if not arg_list:
+        if not args:
             print("** class name missing **")
             return
-        elif arg_list[0] not in HBNBCommand.classes:
+        elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[arg_list[0]]()
-        storage.save()
-        dic = {}
-        for att_name in arg_list[1:]:
-            eq = att_name.find('=')
-            dic[att_name[:eq]] = att_name[eq + 1:].replace("_"," ")
-        if len(arg_list) < 3:
-            add = str(arg_list[0]) + " " + new_instance.id +\
-                  " " + args[len(arg_list[0]) + 1:].replace("=", " ")\
-                                                   .replace("_"," ")
-        elif len(arg_list) > 2:
-            add = str(arg_list[0]) + " " + new_instance.id +\
-                  " " + str(dic)
+        argsplit = args.split()
+        new_instance = HBNBCommand.classes[argsplit[0]]()
         print(new_instance.id)
-        if len(arg_list) > 1:
-            self.do_update(add)
+        for i in range(1, len(argsplit)):
+            pichu = argsplit[i].split('=')
+            k = pichu[0]
+            v = pichu[1]
+            if '.' in v:
+                v = float(v)
+            if '_' in v:
+                v = v.replace('_', ' ')
+            if '\"' in v:
+                v = v.replace('\"', '')
+            setattr(new_instance, k, v)
         storage.save()
 
     def help_create(self):
@@ -274,12 +272,9 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         # determine if key is present
-        try:
-            if key not in storage.all():
-                print("** no instance found **")
-                return
-        except:
-            pass
+        if key not in storage.all():
+            print("** no instance found **")
+            return
 
         # first determine if kwargs or args
         if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
