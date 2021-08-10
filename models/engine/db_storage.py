@@ -25,7 +25,7 @@ class DBStorage:
         db = os.getenv('HBNB_MYSQL_DB')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
                                             .format(user, pwd, host, db), pool_pre_ping=True)
-        if os.environ('HBNB_ENV') == " test":
+        if os.getenv('HBNB_ENV') == " test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -44,7 +44,7 @@ class DBStorage:
         """Base.metadata.create_all(self.__engine)
         session = Session(self.__engine)"""
         self.__session.add(obj)
-    
+
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
