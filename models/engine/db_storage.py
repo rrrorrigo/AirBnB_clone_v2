@@ -14,6 +14,7 @@ import os
 
 
 class DBStorage:
+    """Class DBStorage for database in mysql"""
     __engine = None
     __session = None
 
