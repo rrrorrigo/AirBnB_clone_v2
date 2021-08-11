@@ -2,7 +2,9 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.city import City
-import unittest, os, pep8
+import unittest
+import os
+import pep8
 
 
 class test_City(test_basemodel):
@@ -41,7 +43,7 @@ class test_City(test_basemodel):
         """"  Test pep8 for City class  """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/city.py'])
-        self.assertEqual(p.total_errors, 0, "pep8 error")
+        self.assertEqual(p.total_errors, 0, "pep8 errors")
 
 if __name__ == "__main__":
     unittest.main()

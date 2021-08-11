@@ -2,7 +2,9 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
-import unittest, os, pep8
+import unittest
+import os
+import pep8
 
 
 class test_Amenity(test_basemodel):
@@ -31,7 +33,7 @@ class test_Amenity(test_basemodel):
         """"  Test pep8 for Amenity class  """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/amenity.py'])
-        self.assertEqual(p.total_errors, 0, "pep8 error")
+        self.assertEqual(p.total_errors, 0, "pep8 errors")
 
     def test_docstring_Amenity(self):
         """  Test docstring for Amenity class  """
@@ -47,6 +49,6 @@ class test_Amenity(test_basemodel):
     def test_attribute_types_Amenity(self):
         """  Test attribute type for Amenity class """
         self.assertEqual(type(self.amenity.name), str)
-    
+
 if __name__ == '__main__':
     unittest.main()

@@ -2,7 +2,9 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
-import unittest, os, pep8
+import unittest
+import os
+import pep8
 
 
 class test_Place(test_basemodel):
@@ -81,7 +83,7 @@ class test_Place(test_basemodel):
         """"  Test pep8 for Place class  """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/place.py'])
-        self.assertEqual(p.total_errors, 0, "pep8 error")
+        self.assertEqual(p.total_errors, 0, "pep8 errors")
 
     def test_attribute_types_Place(self):
         """ test for place atributes"""

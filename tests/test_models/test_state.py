@@ -2,7 +2,9 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.state import State
-import unittest, os, pep8
+import unittest
+import os
+import pep8
 
 
 class test_state(test_basemodel):
