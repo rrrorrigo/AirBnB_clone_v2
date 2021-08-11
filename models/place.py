@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from AirBnB_clone2.models import amenity
-from AirBnB_clone2.models.amenity import Amenity
+from models.amenity import Amenity
 from sqlalchemy.orm.relationships import foreign
 from models.review import Review
 import models
@@ -35,7 +34,7 @@ class Place(BaseModel, Base):
     storageType = getenv('HBNB_TYPE_STORAGE')
     if storageType == 'db':
         reviews = relationship("Review", cascade="all, delete", backref="place")
-        amenities = relationship("Amenity", cascade="all, delete", secondary='place_amenity', viewonly=False)
+        amenities = relationship("Amenity", secondary='place_amenity', viewonly=False)
     else:
         @property
         def reviews(self):
