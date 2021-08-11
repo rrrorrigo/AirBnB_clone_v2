@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from models import storage
+import models
 from models.city import City
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
@@ -20,9 +20,8 @@ class State(BaseModel, Base):
         def cities(self):
             """getter attribute cities"""
             rlist = []
-            dictCity = storage.all(City)
+            dictCity = models.storage.all(City)
             for id, obj in dictCity.items():
                 if id == obj.state_id:
                     rlist.append(obj)
             return rlist
-        

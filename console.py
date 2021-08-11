@@ -130,12 +130,12 @@ class HBNBCommand(cmd.Cmd):
             pichu = argsplit[i].split('=')
             k = pichu[0]
             v = pichu[1]
-            if '.' in v:
-                v = float(v)
             if '_' in v:
                 v = v.replace('_', ' ')
             if '\"' in v:
                 v = v.replace('\"', '')
+            elif '.' in v:
+                v = float(v)
             setattr(new_instance, k, v)
         storage.save()
         storage.new(new_instance)
