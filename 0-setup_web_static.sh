@@ -15,13 +15,10 @@ sudo echo "<html>
 cd /data/web_static
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data
-sudo sed -i "$ d" /etc/nginx/sites-available/default
-sudo echo "location /hbnb_static {
+sudo sed -i "/listen 80 default_server/a location /hbnb_static {
 alias /data/web_static/current/;
 error_page  404  /404.html;
 try_files $uri $uri/ =404;
-}
-}
-" >> /etc/nginx/sites-available/default
+}" /etc/nginx/sites-available/default
 sudo service nginx restart
 exit 0
