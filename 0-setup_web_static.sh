@@ -1,23 +1,20 @@
 #!/usr/bin/env bash
 # Bash script that sets up your web servers for the deployment of web_static
-sudo apt-get -y update nginx
-sudo apt -y install nginx
-sudo mkdir data && cd data
-sudo mkdir web_static && cd web_static
-sudo mkdir releases shared && cd releases
-sudo mkdir test && cd test
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo mkdir -p /data/web_static/releases/test/
+sudo mkdir -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/current/
 sudo echo "<html>
   <head>
   </head>
   <body>
     Holberton School
   </body>
-</html>" > index.html
+</html>" > /data/web_static/releases/test/index.html
 cd /data/web_static
-sudo mkdir current
-sudo ln -sf current /data/web_static/releases/test/
-sudo chown -R ubuntu /data/
-sudo chgrp -R ubuntu /data/
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo chown -R ubuntu:ubuntu /data
 sudo sed -i "$ d" /etc/nginx/sites-available/default
 sudo echo "location /hbnb_static {
 alias /data/web_static/current/;
