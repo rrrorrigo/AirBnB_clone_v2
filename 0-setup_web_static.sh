@@ -5,7 +5,13 @@ mkdir data && cd data
 mkdir web_static && cd web_static
 mkdir releases shared && cd releases
 mkdir test && cd test
-echo "test text" > index.html
+echo "<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>" > index.html
 cd /data/web_static
 mkdir current
 ln -sf current /data/web_static/releases/test/
