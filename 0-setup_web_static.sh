@@ -8,19 +8,16 @@ mkdir test && cd test
 echo "test text" > index.html
 cd /data/web_static
 mkdir current
-if [ -L 'current' ]
-then
-    unlink current
-    mkdir current
-fi
-ln -s current /data/web_static/releases/test/
+ln -sf current /data/web_static/releases/test/
 chown -R ubuntu /data/
 chgrp -R ubuntu /data/
-sed -i "$d" /etc/nginx/sites-available/default
+sed -i "$ d" /etc/nginx/sites-available/default
 echo "location /hbnb_static {
 alias /data/web_static/current/;
 error_page  404  /404.html;
 try_files $uri $uri/ =404;
 }
-}" >> /etc/nginx/sites-available/default
+}
+" >> /etc/nginx/sites-available/default
 service nginx restart
+exit 0
