@@ -7,6 +7,10 @@ from datetime import datetime
 
 
 def do_pack():
+        """The function do_pack must return the archive
+        path if the archive has been correctly generated.
+        Otherwise, it should return None
+        """
         dt = datetime.now()
         y = str(dt.year)
         M = str(dt.month)
