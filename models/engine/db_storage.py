@@ -13,6 +13,10 @@ from models.user import User
 import os
 
 
+classes = {'User': User, 'Place': Place, 'Review': Review,
+           'State': State, 'City': City}
+
+
 class DBStorage:
     """Class DBStorage for database in mysql"""
     __engine = None
@@ -32,17 +36,12 @@ class DBStorage:
 
     def all(self, cls=None):
         """query all objects depending of the class name"""
-        new_dictionary = {}
-        obj = [State, City, Place, Amenity, Review, User]
-        if cls is None:
-            for clas in self.__session.query(obj).all():
-                new_dictionary[clas.__class__.__name__ +
-                               '.' + clas.id] = clas.to_dict()
-        else:
-            for clas in self.__session.query(eval(cls)).all():
-                new_dictionary[clas.__class__.__name__ +
-                               '.' + clas.id] = clas.to_dict()
-        return new_dictionary
+        objects = {}
+        for current_class in classes.values():
+            if current_class is cls or cls is None:
+                for elem in self.__session.query(current_class).all():
+                    objects[elem.__class__.__name__+'.'+elem.id] = elem
+        return objects
 
     def new(self, obj):
         """add the object to the current database session"""
