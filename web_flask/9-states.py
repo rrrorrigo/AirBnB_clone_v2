@@ -22,6 +22,7 @@ def remove_sesh(self):
     """remove the current SQLAlchemy session"""
     storage.close()
 
+
 @app.route("/states/<id>")
 def statesId(id=None):
     """isplay a HTML page: (inside the tag BODY)"""
